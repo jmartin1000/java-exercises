@@ -2,25 +2,27 @@ package school;
 
 import java.util.Objects;
 
-public class Student {
+public class Student extends AbstractEntity {
 
-    private String name;
-    private final int studentID;
-    private int numbersOfCredits;
-    private double gpa;
+    String name;
+    final String studentID;
+    int numbersOfCredits;
+    double gpa;
 
     // use this one for students who arrive with credits and a GPA
-    public Student(String name, int studentID, int numbersOfCredits, double gpa) {
+    // package private so that subclasses can use it
+    Student(String name, int numbersOfCredits, double gpa) {
         this.name = name;
-        this.studentID = studentID;
+        this.studentID = assignStudentID(name);
         this.numbersOfCredits = numbersOfCredits;
         this.gpa = gpa;
     }
 
     // use this one for students who have no credits or GPA at the time of entry
-    public Student(String name, int studentID) {
+    // package private so that subclasses can use it
+    Student(String name) {
 
-        this(name, studentID, 0, 0);
+        this(name,0, 0);
     }
 
     public String getName() {
@@ -33,12 +35,12 @@ public class Student {
         name = aName;
     }
 
-    public int getStudentID() {
+    String getStudentID() {
 
         return studentID;
     }
 
-    public int getNumbersOfCredits() {
+    int getNumbersOfCredits() {
 
         return numbersOfCredits;
     }
@@ -67,21 +69,6 @@ public class Student {
         this.setGpa(newGPA);
     }
 
-    public String getGradeLevel() {
-        String level;
-        if (this.numbersOfCredits <= 30) {
-            level = "Freshman";
-        } else if (this.numbersOfCredits <= 60) {
-            level = "Sophomore";
-        } else if (this.numbersOfCredits <= 90) {
-            level = "Junior";
-        } else {
-            level = "Senior";
-        }
-
-        return level;
-    }
-
     public String toString() {
         return name + "(Completed credits: " + numbersOfCredits + ", Cumulative GPA: " + gpa + ")";
     }
@@ -91,7 +78,7 @@ public class Student {
         if (this == o) return true;
         if (!(o instanceof Student)) return false;
         Student student = (Student) o;
-        return getStudentID() == student.getStudentID() &&
+        return getStudentID().equals(student.getStudentID()) &&
                 getName().equals(student.getName());
     }
 

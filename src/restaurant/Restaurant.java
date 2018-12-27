@@ -1,4 +1,4 @@
-package school;
+package restaurant;
 
 import restaurant.MenuItem;
 import restaurant.Menu;
